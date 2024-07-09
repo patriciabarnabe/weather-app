@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import WeatherDisplay from "./components/WeatherDisplay";
 import CitySearch from "./components/CitySearch";
 import UnitToggle from "./components/UnitToggle";
@@ -10,7 +10,26 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
+  Box,
+  Grid,
 } from "@mui/material";
+import { styled } from "@mui/system";
+import TemperatureDisplay from "./components/TemperatureDisplay";
+import WeatherDetails from "./components/WeatherDetails";
+import AirQuality from "./components/AirQuality";
+import SunSchedule from "./components/SunSchedule";
+import WeeklyForecast from "./components/WeeklyForecast";
+
+const Root = styled(Box)({
+  padding: "20px",
+  background: "linear-gradient(to bottom, #a18cd1, #fbc2eb)",
+  height: "100vh",
+});
+
+const NewContainer = styled(Box)({
+  maxWidth: "800px",
+  margin: "0 auto",
+});
 
 interface Weather {
   temp: number;
@@ -64,18 +83,16 @@ const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    if (location.lat && location.lon) {
-      fetchWeather();
-    }
-  }, [location, unit]); // Adicionando 'unit' como dependência
+  const handleSearch = (city?: string, country?: string) => {
+    fetchWeather(city, country);
+  };
 
   return (
     <Container sx={{ textAlign: "center", mt: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
         Aplicativo Meteorológico
       </Typography>
-      <CitySearch onSearch={fetchWeather} />
+      <CitySearch onSearch={handleSearch} />
       <UnitToggle unit={unit} onToggle={setUnit} />{" "}
       {/* Passando 'unit' e 'setUnit' para o componente UnitToggle */}
       {loading ? <CircularProgress /> : <WeatherDisplay weather={weather} />}
@@ -88,6 +105,21 @@ const App: React.FC = () => {
           {error}
         </Alert>
       </Snackbar>
+      <Root>
+        <NewContainer>
+          <TemperatureDisplay />
+          <WeatherDetails />
+          <Grid container spacing={3} style={{ marginTop: "20px" }}>
+            <Grid item xs={12} md={6}>
+              <AirQuality />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <SunSchedule />
+            </Grid>
+          </Grid>
+          <WeeklyForecast />
+        </NewContainer>
+      </Root>
     </Container>
   );
 };
