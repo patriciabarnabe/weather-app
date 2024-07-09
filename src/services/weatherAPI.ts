@@ -16,7 +16,11 @@ interface WeatherResponse {
   };
 }
 
-export const getWeatherByCity = (city: string, country: string) => {
+export const getWeatherByCity = (
+  city: string,
+  country: string,
+  units: "metric" | "imperial" = "metric"
+) => {
   if (!API_KEY) {
     throw new Error("API key is missing");
   }
@@ -24,16 +28,20 @@ export const getWeatherByCity = (city: string, country: string) => {
   return axios.get<WeatherResponse>(
     `${BASE_URL}?q=${encodeURIComponent(
       city
-    )},${country}&appid=${API_KEY}&units=metric`
+    )},${country}&appid=${API_KEY}&units=${units}`
   );
 };
 
-export const getWeatherByCoords = (lat: number, lon: number) => {
+export const getWeatherByCoords = (
+  lat: number,
+  lon: number,
+  units: "metric" | "imperial" = "metric"
+) => {
   if (!API_KEY) {
     throw new Error("API key is missing");
   }
 
   return axios.get<WeatherResponse>(
-    `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+    `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`
   );
 };

@@ -21,7 +21,7 @@ interface Weather {
 
 const App: React.FC = () => {
   const [weather, setWeather] = useState<Weather | null>(null);
-  const [unit, setUnit] = useState<string>("metric");
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric"); // Estado de unidade inicial
   const location = useGeoLocation();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +30,7 @@ const App: React.FC = () => {
     setLoading(true);
     try {
       if (city && country) {
-        const response = await getWeatherByCity(city, country);
+        const response = await getWeatherByCity(city, country, unit); // Passando a unidade como parâmetro
         setWeather({
           temp: response.data.main.temp,
           description: response.data.weather[0].description,
@@ -38,7 +38,11 @@ const App: React.FC = () => {
           windSpeed: response.data.wind.speed,
         });
       } else if (location.lat && location.lon) {
-        const response = await getWeatherByCoords(location.lat, location.lon);
+        const response = await getWeatherByCoords(
+          location.lat,
+          location.lon,
+          unit
+        ); // Passando a unidade como parâmetro
         setWeather({
           temp: response.data.main.temp,
           description: response.data.weather[0].description,
@@ -64,7 +68,7 @@ const App: React.FC = () => {
     if (location.lat && location.lon) {
       fetchWeather();
     }
-  }, [location]);
+  }, [location, unit]); // Adicionando 'unit' como dependência
 
   return (
     <Container sx={{ textAlign: "center", mt: 4 }}>
@@ -72,7 +76,8 @@ const App: React.FC = () => {
         Aplicativo Meteorológico
       </Typography>
       <CitySearch onSearch={fetchWeather} />
-      <UnitToggle unit={unit} onToggle={setUnit} />
+      <UnitToggle unit={unit} onToggle={setUnit} />{" "}
+      {/* Passando 'unit' e 'setUnit' para o componente UnitToggle */}
       {loading ? <CircularProgress /> : <WeatherDisplay weather={weather} />}
       <Snackbar
         open={!!error}

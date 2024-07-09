@@ -1,28 +1,44 @@
 import React from "react";
-import { ToggleButtonGroup, ToggleButton, Box } from "@mui/material";
+import {
+  ToggleButton,
+  ToggleButtonGroup,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 interface UnitToggleProps {
-  unit: string;
-  onToggle: (unit: string) => void;
+  unit: "metric" | "imperial";
+  onToggle: (unit: "metric" | "imperial") => void;
 }
 
 const UnitToggle: React.FC<UnitToggleProps> = ({ unit, onToggle }) => {
+  const handleUnitChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newUnit: "metric" | "imperial"
+  ) => {
+    if (newUnit !== null) {
+      onToggle(newUnit);
+    }
+  };
+
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-      <ToggleButtonGroup
-        value={unit}
-        exclusive
-        onChange={(e, newUnit) => onToggle(newUnit)}
-        aria-label="unit toggle"
-      >
-        <ToggleButton value="metric" aria-label="celsius">
-          Celsius
-        </ToggleButton>
-        <ToggleButton value="imperial" aria-label="fahrenheit">
-          Fahrenheit
-        </ToggleButton>
-      </ToggleButtonGroup>
-    </Box>
+    <Grid container justifyContent="center" spacing={2}>
+      <Grid item>
+        <ToggleButtonGroup
+          value={unit}
+          exclusive
+          onChange={handleUnitChange}
+          aria-label="unidade"
+        >
+          <ToggleButton value="metric" aria-label="metric">
+            Métrico
+          </ToggleButton>
+          <ToggleButton value="imperial" aria-label="imperial">
+            Imperial
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Grid>
+    </Grid>
   );
 };
 
