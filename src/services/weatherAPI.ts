@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_OPENWEATHER_API_KEY;
-const BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
+const BASE_URL = "https://api.openweathermap.org/data/2.5";
 
 interface WeatherResponse {
   main: {
@@ -16,96 +16,74 @@ interface WeatherResponse {
   };
 }
 
-interface DailyWeather {
-  dt: number;
-  temp: {
-    min: number;
-    max: number;
-  };
-  weather: {
-    description: string;
+interface WeeklyForecastResponse {
+  daily: {
+    temp: {
+      min: number;
+      max: number;
+    };
   }[];
 }
 
-interface ForecastResponse {
-  daily: DailyWeather[];
+interface AirQualityResponse {
+  list: {
+    main: {
+      aqi: number;
+    };
+  }[];
 }
 
-export const getWeatherByCity = (
+interface SunScheduleResponse {
+  sys: {
+    sunrise: number;
+    sunset: number;
+  };
+}
+
+export const getWeatherByCity = async (
   city: string,
   country: string,
-  units: "metric" | "imperial" = "metric"
+  unit: string
 ) => {
-  if (!API_KEY) {
-    throw new Error("API key is missing");
-  }
-
-  return axios.get<WeatherResponse>(
-    `${BASE_URL}?q=${encodeURIComponent(
-      city
-    )},${country}&appid=${API_KEY}&units=${units}`
-  );
+  const url = `${BASE_URL}/weather?q=${city},${country}&units=${unit}&appid=${API_KEY}`;
+  const response = await axios.get<WeatherResponse>(url);
+  return response.data;
 };
 
-export const getWeatherByCoords = (
+export const getWeatherByCoords = async (
   lat: number,
   lon: number,
-  units: "metric" | "imperial" = "metric"
+  unit: string
 ) => {
-  if (!API_KEY) {
-    throw new Error("API key is missing");
-  }
-
-  return axios.get<WeatherResponse>(
-    `${BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=${units}`
-  );
+  const url = `${BASE_URL}/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${API_KEY}`;
+  const response = await axios.get<WeatherResponse>(url);
+  return response.data;
 };
 
-export const getDailyForecast = (
-  lat: number,
-  lon: number,
-  units: "metric" | "imperial" = "metric",
-  exclude: string = "current,minutely,hourly"
-) => {
-  if (!API_KEY) {
-    throw new Error("API key is missing");
-  }
-
-  return axios.get<ForecastResponse>(
-    `${BASE_URL}/onecall?lat=${lat}&lon=${lon}&exclude=${exclude}&appid=${API_KEY}&units=${units}`
-  );
-};
-
-// Simulação de função para obter previsão semanal
 export const getWeeklyForecast = async (
   lat: number,
   lon: number,
   unit: string
 ) => {
-  // Simulação de chamada de API
-  const response = await fetch(
-    `https://api.example.com/weekly-forecast?lat=${lat}&lon=${lon}&unit=${unit}`
-  );
-  const data = await response.json();
-  return data;
+  const url = `${BASE_URL}/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=${unit}&appid=${API_KEY}`;
+  const response = await axios.get<WeeklyForecastResponse>(url);
+  return response.data.daily.map((day) => ({
+    minTemp: day.temp.min,
+    maxTemp: day.temp.max,
+  }));
 };
 
-// Simulação de função para obter qualidade do ar
 export const getAirQuality = async (lat: number, lon: number) => {
-  // Simulação de chamada de API
-  const response = await fetch(
-    `https://api.example.com/air-quality?lat=${lat}&lon=${lon}`
-  );
-  const data = await response.json();
-  return data;
+  const url = `${BASE_URL}/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+  const response = await axios.get<AirQualityResponse>(url);
+  return response.data.list[0].main.aqi;
 };
 
-// Simulação de função para obter horário do sol
 export const getSunSchedule = async (lat: number, lon: number) => {
-  // Simulação de chamada de API
-  const response = await fetch(
-    `https://api.example.com/sun-schedule?lat=${lat}&lon=${lon}`
-  );
-  const data = await response.json();
-  return data;
+  const url = `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+  const response = await axios.get<SunScheduleResponse>(url);
+  return {
+    sunrise: new Date(response.data.sys.sunrise * 1000).toLocaleTimeString(),
+    sunset: new Date(response.data.sys.sunset * 1000).toLocaleTimeString(),
+  };
 };

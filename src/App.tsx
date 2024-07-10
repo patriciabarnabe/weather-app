@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import WeatherDisplay from "./components/WeatherDisplay";
 import CitySearch from "./components/CitySearch";
 import UnitToggle from "./components/UnitToggle";
-import { getWeatherByCity, getWeatherByCoords } from "./services/weatherAPI";
+import {
+  getWeatherByCity,
+  getWeatherByCoords,
+  getWeeklyForecast,
+  getAirQuality,
+  getSunSchedule,
+} from "./services/weatherAPI";
 import useGeoLocation from "./hooks/useGeoLocation";
 import {
   Container,
@@ -38,48 +44,57 @@ interface Weather {
   windSpeed: number;
 }
 
+interface SunScheduleData {
+  sunrise: string;
+  sunset: string;
+}
+
 const App: React.FC = () => {
   const [weather, setWeather] = useState<Weather | null>(null);
-  const [unit, setUnit] = useState<"metric" | "imperial">("metric"); // Estado de unidade inicial
+  const [unit, setUnit] = useState<"metric" | "imperial">("metric");
   const location = useGeoLocation();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [weeklyForecast, setWeeklyForecast] = useState<
+    { day: string; minTemp: number; maxTemp: number }[]
+  >([]);
+  const [airQuality, setAirQuality] = useState<string>(""); // Inicializado como uma string vazia
+  const [sunSchedule, setSunSchedule] = useState<SunScheduleData>({
+    sunrise: "",
+    sunset: "",
+  });
 
   useEffect(() => {
-    if (location.lat && location.lon) {
+    if (location.lat !== null && location.lon !== null) {
       fetchWeather();
+      fetchWeeklyForecast();
+      fetchAirQuality();
+      fetchSunSchedule();
     }
   }, [location, unit]);
 
   const fetchWeather = async (city?: string, country?: string) => {
     setLoading(true);
     try {
+      let response;
       if (city && country) {
-        const response = await getWeatherByCity(city, country, unit); // Passando a unidade como parâmetro
+        response = await getWeatherByCity(city, country, unit);
+      } else if (location.lat !== null && location.lon !== null) {
+        response = await getWeatherByCoords(location.lat, location.lon, unit);
+      }
+      if (response) {
         setWeather({
-          temp: response.data.main.temp,
-          description: response.data.weather[0].description,
-          humidity: response.data.main.humidity,
-          windSpeed: response.data.wind.speed,
+          temp: response.main.temp,
+          description: response.weather[0].description,
+          humidity: response.main.humidity,
+          windSpeed: response.wind.speed,
         });
-      } else if (location.lat && location.lon) {
-        const response = await getWeatherByCoords(
-          location.lat,
-          location.lon,
-          unit
-        ); // Passando a unidade como parâmetro
-        setWeather({
-          temp: response.data.main.temp,
-          description: response.data.weather[0].description,
-          humidity: response.data.main.humidity,
-          windSpeed: response.data.wind.speed,
-        });
+        setError(null);
       } else {
         setError(
           "Erro ao buscar dados meteorológicos. Verifique o nome da cidade e tente novamente."
         );
       }
-      setError(null);
     } catch (error) {
       setError(
         "Erro ao buscar dados meteorológicos. Verifique o nome da cidade e tente novamente."
@@ -89,21 +104,60 @@ const App: React.FC = () => {
     }
   };
 
+  const fetchWeeklyForecast = async () => {
+    try {
+      if (location.lat !== null && location.lon !== null) {
+        const data = await getWeeklyForecast(location.lat, location.lon, unit);
+        // Mapeando os dados para o formato esperado pelo estado
+        const formattedData = data.map((item) => ({
+          day: "Dia da semana", // Aqui você pode ajustar conforme necessário
+          minTemp: item.minTemp,
+          maxTemp: item.maxTemp,
+        }));
+        setWeeklyForecast(formattedData);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar previsão semanal:", error);
+      setError(
+        "Erro ao buscar previsão semanal. Verifique a conexão e tente novamente."
+      );
+    }
+  };
+
+  const fetchAirQuality = async () => {
+    try {
+      if (location.lat !== null && location.lon !== null) {
+        const data = await getAirQuality(location.lat, location.lon);
+        setAirQuality(data.toString()); // Convertendo para string, se necessário
+      }
+    } catch (error) {
+      console.error("Erro ao buscar qualidade do ar:", error);
+      setError(
+        "Erro ao buscar qualidade do ar. Verifique a conexão e tente novamente."
+      );
+    }
+  };
+
+  const fetchSunSchedule = async () => {
+    try {
+      if (location.lat !== null && location.lon !== null) {
+        const data = await getSunSchedule(location.lat, location.lon);
+        setSunSchedule({
+          sunrise: data.sunrise,
+          sunset: data.sunset,
+        });
+      }
+    } catch (error) {
+      console.error("Erro ao buscar horário do sol:", error);
+      setError(
+        "Erro ao buscar horário do sol. Verifique a conexão e tente novamente."
+      );
+    }
+  };
+
   const handleSearch = (city?: string, country?: string) => {
     fetchWeather(city, country);
   };
-
-  // Mock para simular dados de qualidade do ar, horário do sol e previsão semanal
-  const airQuality = "Boa"; // Substitua pelo dado real
-  const sunrise = "06:30"; // Substitua pelo dado real
-  const sunset = "18:45"; // Substitua pelo dado real
-  const weeklyForecast = [
-    { day: "Amanhã", minTemp: 16, maxTemp: 21 },
-    { day: "Sexta-Feira", minTemp: 20, maxTemp: 28 },
-    { day: "Sábado", minTemp: 21, maxTemp: 25 },
-    { day: "Domingo", minTemp: 14, maxTemp: 20 },
-    { day: "Segunda-Feira", minTemp: 18, maxTemp: 24 },
-  ]; // Substitua pelos dados reais
 
   return (
     <Container sx={{ textAlign: "center", mt: 4 }}>
@@ -131,7 +185,10 @@ const App: React.FC = () => {
               <AirQuality airQuality={airQuality} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <SunSchedule sunrise={sunrise} sunset={sunset} />
+              <SunSchedule
+                sunrise={sunSchedule.sunrise}
+                sunset={sunSchedule.sunset}
+              />
             </Grid>
           </Grid>
           <WeeklyForecast forecast={weeklyForecast} />

@@ -11,14 +11,16 @@ const StyledPaper = styled(Paper)({
 });
 
 interface AirQualityProps {
-  airQuality: string; // Defina o tipo correto para a qualidade do ar
+  airQuality: string | number; // Defina o tipo correto para a qualidade do ar
 }
 
 const AirQuality: React.FC<AirQualityProps> = ({ airQuality }) => {
   return (
     <StyledPaper>
       <Typography variant="h6">Qualidade do ar</Typography>
-      <Typography variant="h3">{airQuality}</Typography>
+      <Typography variant="h3">
+        {typeof airQuality === "number" ? airQuality.toFixed(0) : airQuality}
+      </Typography>
     </StyledPaper>
   );
 };
