@@ -15,31 +15,27 @@ const DetailItemBox = styled(Box)({
   textAlign: "center",
 });
 
-const WeeklyForecast: React.FC = () => {
+interface WeeklyForecastProps {
+  forecast: {
+    day: string;
+    minTemp: number;
+    maxTemp: number;
+  }[];
+}
+
+const WeeklyForecast: React.FC<WeeklyForecastProps> = ({ forecast }) => {
   return (
     <StyledPaper>
       <Typography variant="h6">Previsão da semana</Typography>
       <Box display="flex" justifyContent="space-around" marginTop="20px">
-        <DetailItemBox>
-          <Typography>Amanhã</Typography>
-          <Typography>21° 16°</Typography>
-        </DetailItemBox>
-        <DetailItemBox>
-          <Typography>Sexta-Feira</Typography>
-          <Typography>28° 20°</Typography>
-        </DetailItemBox>
-        <DetailItemBox>
-          <Typography>Sábado</Typography>
-          <Typography>25° 21°</Typography>
-        </DetailItemBox>
-        <DetailItemBox>
-          <Typography>Domingo</Typography>
-          <Typography>20° 14°</Typography>
-        </DetailItemBox>
-        <DetailItemBox>
-          <Typography>Segunda-Feira</Typography>
-          <Typography>24° 18°</Typography>
-        </DetailItemBox>
+        {forecast.map((dayForecast, index) => (
+          <DetailItemBox key={index}>
+            <Typography>{dayForecast.day}</Typography>
+            <Typography>
+              {dayForecast.maxTemp}° {dayForecast.minTemp}°
+            </Typography>
+          </DetailItemBox>
+        ))}
       </Box>
     </StyledPaper>
   );

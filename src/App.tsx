@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WeatherDisplay from "./components/WeatherDisplay";
 import CitySearch from "./components/CitySearch";
 import UnitToggle from "./components/UnitToggle";
@@ -45,6 +45,12 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (location.lat && location.lon) {
+      fetchWeather();
+    }
+  }, [location, unit]);
+
   const fetchWeather = async (city?: string, country?: string) => {
     setLoading(true);
     try {
@@ -87,6 +93,18 @@ const App: React.FC = () => {
     fetchWeather(city, country);
   };
 
+  // Mock para simular dados de qualidade do ar, horário do sol e previsão semanal
+  const airQuality = "Boa"; // Substitua pelo dado real
+  const sunrise = "06:30"; // Substitua pelo dado real
+  const sunset = "18:45"; // Substitua pelo dado real
+  const weeklyForecast = [
+    { day: "Amanhã", minTemp: 16, maxTemp: 21 },
+    { day: "Sexta-Feira", minTemp: 20, maxTemp: 28 },
+    { day: "Sábado", minTemp: 21, maxTemp: 25 },
+    { day: "Domingo", minTemp: 14, maxTemp: 20 },
+    { day: "Segunda-Feira", minTemp: 18, maxTemp: 24 },
+  ]; // Substitua pelos dados reais
+
   return (
     <Container sx={{ textAlign: "center", mt: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
@@ -94,7 +112,6 @@ const App: React.FC = () => {
       </Typography>
       <CitySearch onSearch={handleSearch} />
       <UnitToggle unit={unit} onToggle={setUnit} />{" "}
-      {/* Passando 'unit' e 'setUnit' para o componente UnitToggle */}
       {loading ? <CircularProgress /> : <WeatherDisplay weather={weather} />}
       <Snackbar
         open={!!error}
@@ -107,17 +124,17 @@ const App: React.FC = () => {
       </Snackbar>
       <Root>
         <NewContainer>
-          <TemperatureDisplay />
-          <WeatherDetails />
+          <TemperatureDisplay weather={weather} />
+          <WeatherDetails weather={weather} />
           <Grid container spacing={3} style={{ marginTop: "20px" }}>
             <Grid item xs={12} md={6}>
-              <AirQuality />
+              <AirQuality airQuality={airQuality} />
             </Grid>
             <Grid item xs={12} md={6}>
-              <SunSchedule />
+              <SunSchedule sunrise={sunrise} sunset={sunset} />
             </Grid>
           </Grid>
-          <WeeklyForecast />
+          <WeeklyForecast forecast={weeklyForecast} />
         </NewContainer>
       </Root>
     </Container>

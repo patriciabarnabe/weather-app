@@ -10,11 +10,17 @@ const StyledPaper = styled(Paper)({
   borderRadius: "10px",
 });
 
-const SunSchedule: React.FC = () => {
+interface SunScheduleProps {
+  sunrise: string;
+  sunset: string;
+}
+
+const SunSchedule: React.FC<SunScheduleProps> = ({ sunrise, sunset }) => {
   return (
     <StyledPaper>
       <Typography variant="h6">Horário do sol</Typography>
-      <Typography variant="h3">16:01</Typography>
+      <Typography variant="h3">{sunset}</Typography>{" "}
+      {/* Ajuste para mostrar o pôr do sol */}
     </StyledPaper>
   );
 };

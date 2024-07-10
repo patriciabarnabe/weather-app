@@ -10,11 +10,15 @@ const StyledPaper = styled(Paper)({
   borderRadius: "10px",
 });
 
-const AirQuality: React.FC = () => {
+interface AirQualityProps {
+  airQuality: string; // Defina o tipo correto para a qualidade do ar
+}
+
+const AirQuality: React.FC<AirQualityProps> = ({ airQuality }) => {
   return (
     <StyledPaper>
       <Typography variant="h6">Qualidade do ar</Typography>
-      <Typography variant="h3">Boa 21</Typography>
+      <Typography variant="h3">{airQuality}</Typography>
     </StyledPaper>
   );
 };

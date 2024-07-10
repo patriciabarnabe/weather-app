@@ -14,11 +14,22 @@ const TempTypography = styled(Typography)({
   fontSize: "4rem",
 });
 
-const TemperatureDisplay: React.FC = () => {
+interface TemperatureDisplayProps {
+  weather: {
+    temp: number;
+    description: string;
+    humidity: number;
+    windSpeed: number;
+  } | null;
+}
+
+const TemperatureDisplay: React.FC<TemperatureDisplayProps> = ({ weather }) => {
+  if (!weather) return null;
+
   return (
     <StyledPaper>
-      <TempTypography variant="h3">18°C</TempTypography>
-      <Typography variant="h6">Rio do Sul, SC</Typography>
+      <TempTypography variant="h3">{weather.temp}°C</TempTypography>
+      <Typography variant="h6">{weather.description}</Typography>
     </StyledPaper>
   );
 };

@@ -12,20 +12,27 @@ const DetailItemBox = styled(Box)({
   textAlign: "center",
 });
 
-const WeatherDetails: React.FC = () => {
+interface WeatherDetailsProps {
+  weather: {
+    temp: number;
+    description: string;
+    humidity: number;
+    windSpeed: number;
+  } | null;
+}
+
+const WeatherDetails: React.FC<WeatherDetailsProps> = ({ weather }) => {
+  if (!weather) return null;
+
   return (
     <DetailsBox>
       <DetailItemBox>
         <Typography>Vento</Typography>
-        <Typography>17 km/h</Typography>
+        <Typography>{weather.windSpeed} m/s</Typography>
       </DetailItemBox>
       <DetailItemBox>
         <Typography>Umidade</Typography>
-        <Typography>31%</Typography>
-      </DetailItemBox>
-      <DetailItemBox>
-        <Typography>Chuva</Typography>
-        <Typography>10%</Typography>
+        <Typography>{weather.humidity}%</Typography>
       </DetailItemBox>
     </DetailsBox>
   );
