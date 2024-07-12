@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  ToggleButton,
-  ToggleButtonGroup,
-  Grid,
-  Typography,
-  Box,
-} from "@mui/material";
+import { ToggleButton, ToggleButtonGroup, Grid, Box } from "@mui/material";
 import { styled } from "@mui/system";
 
 interface UnitToggleProps {
@@ -28,6 +22,7 @@ const StyledToggleButton = styled(ToggleButton)({
       backgroundColor: "#1565c0",
     },
   },
+  textTransform: "lowercase",
 });
 
 const UnitToggle: React.FC<UnitToggleProps> = ({ unit, onToggle }) => {

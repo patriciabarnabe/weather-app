@@ -7,9 +7,9 @@ import {
   Select,
   FormControl,
   InputLabel,
-  Typography,
   Tooltip,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/SearchRounded";
 import { getCode, getNames } from "country-list";
 import InstructionModal from "./InstructionModal";
 import { styled } from "@mui/system";
@@ -28,9 +28,12 @@ const StyledForm = styled(Box)({
   borderRadius: "8px",
   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
   flexWrap: "wrap",
+  margin: "16px auto",
+  maxWidth: 600,
 });
 
 const StyledButton = styled(Button)({
+  height: "100%",
   backgroundColor: "#1976d2",
   color: "#fff",
   "&:hover": {
@@ -80,7 +83,7 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSearch }) => {
           </Select>
         </FormControl>
         <StyledButton variant="contained" type="submit">
-          Search
+          <SearchIcon />
         </StyledButton>
       </StyledForm>
       {showInstructions && (

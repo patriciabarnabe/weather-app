@@ -82,8 +82,13 @@ const App: React.FC = () => {
         width: { xs: "100%", sm: "80%", md: "60%" },
       }}
     >
-      <Typography variant="h4" component="h1" gutterBottom>
-        Weather Forecast
+      <Typography
+        variant="h4"
+        component="h1"
+        sx={{ fontWeight: "bold" }}
+        gutterBottom
+      >
+        ~ Weather Forecast ~
       </Typography>
       <CitySearch onSearch={handleSearch} />
       <UnitToggle unit={unit} onToggle={setUnit} />{" "}
