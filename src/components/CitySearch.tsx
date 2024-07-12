@@ -44,20 +44,20 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSearch }) => {
       }}
     >
       <Typography variant="h6" component="h2">
-        Buscar por Cidade e País
+        Search by City and Country
       </Typography>
       <TextField
-        label="Digite o nome da cidade (opcional)"
+        label="Enter the name of the city (optional)"
         variant="outlined"
         value={city}
         onChange={(e) => setCity(e.target.value)}
       />
       <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-        <InputLabel>Selecione o país (opcional)</InputLabel>
+        <InputLabel>Select the country (optional)</InputLabel>
         <Select
           value={country}
           onChange={(e) => setCountry(e.target.value as string)}
-          label="Selecione o país (opcional)"
+          label="Select the country (optional)"
         >
           {countryNames.map((name) => (
             <MenuItem key={name} value={name}>
@@ -67,7 +67,7 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSearch }) => {
         </Select>
       </FormControl>
       <Button variant="contained" color="primary" type="submit">
-        Buscar
+        Search
       </Button>
       {showInstructions && (
         <InstructionModal

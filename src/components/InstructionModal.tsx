@@ -19,16 +19,16 @@ const InstructionModal: React.FC<InstructionModalProps> = ({
 }) => {
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Instruções</DialogTitle>
+      <DialogTitle>Alert</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Por favor, preencha ambos os campos de cidade e país ou deixe ambos em
-          branco para usar sua localização atual.
+          Please fill in both the city and country fields or leave both fields
+          blank to use your current location.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary" autoFocus>
-          Fechar
+          Close
         </Button>
       </DialogActions>
     </Dialog>

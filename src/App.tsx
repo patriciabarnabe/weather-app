@@ -162,7 +162,7 @@ const App: React.FC = () => {
   return (
     <Container sx={{ textAlign: "center", mt: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        Aplicativo Meteorológico
+        Weather Forecast
       </Typography>
       <CitySearch onSearch={handleSearch} />
       <UnitToggle unit={unit} onToggle={setUnit} />{" "}
@@ -176,24 +176,6 @@ const App: React.FC = () => {
           {error}
         </Alert>
       </Snackbar>
-      <Root>
-        <NewContainer>
-          <TemperatureDisplay weather={weather} />
-          <WeatherDetails weather={weather} />
-          <Grid container spacing={3} style={{ marginTop: "20px" }}>
-            <Grid item xs={12} md={6}>
-              <AirQuality airQuality={airQuality} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <SunSchedule
-                sunrise={sunSchedule.sunrise}
-                sunset={sunSchedule.sunset}
-              />
-            </Grid>
-          </Grid>
-          <WeeklyForecast forecast={weeklyForecast} />
-        </NewContainer>
-      </Root>
     </Container>
   );
 };
