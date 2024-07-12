@@ -2,15 +2,33 @@
   0% {
     background-color: #1e90ff;
   } /* Sunny day */
-  25% {
+  10% {
+    background-color: #ffcc00;
+  } /* Sunrise */
+  20% {
     background-color: #cc653f;
   } /* Sunset */
-  50% {
+  30% {
     background-color: #4682b4;
   } /* Cloudy sky */
-  75% {
+  40% {
     background-color: #6a5acd;
   } /* Rain */
+  50% {
+    background-color: #b0c4de;
+  } /* Snow */
+  60% {
+    background-color: #708090;
+  } /* Fog */
+  70% {
+    background-color: #2f4f4f;
+  } /* Storm */
+  80% {
+    background-color: #f0e68c;
+  } /* Overcast */
+  90% {
+    background-color: #dda0dd;
+  } /* Mist */
   100% {
     background-color: #1e90ff;
   } /* Return to sunny day */
@@ -33,5 +51,5 @@ body {
   width: 100%;
   height: 100%;
   z-index: -1;
-  animation: weather-animation 20s linear infinite;
+  animation: weather-animation 30s linear infinite;
 }
