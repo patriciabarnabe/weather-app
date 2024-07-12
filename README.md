@@ -1,6 +1,37 @@
-# Aplicativo Meteorológico
+# Weather Web App <img src="./public/favicon.ico" alt="Ícone do Aplicativo" width="30" style="margin-bottom: -5px;">
 
-Este é um aplicativo meteorológico simples criado com React e TypeScript.
+Este é um aplicativo meteorológico simples criado com React e TypeScript. O objetivo é buscar e exibir informações meteorológicas atuais de uma cidade específica usando uma API meteorológica pública.
+
+## API Integration Challenge
+
+### Requisitos
+
+1. Usar React como framework principal.
+2. Integrar com uma API meteorológica pública (Weatherstack, OpenWeatherMap, ou qualquer uma de sua escolha).
+3. Exibir as seguintes informações:
+   - Temperatura atual
+   - Descrição do tempo
+   - Umidade
+   - Velocidade do vento
+4. Implementar uma interface amigável, simples e objetiva.
+5. Configurar a ferramenta para identificar a cidade que você está e carregar os dados de temperatura para a cidade. Em caso do usuário negar o uso da identificação de sua localidade, informe um alerta sobre a necessidade de habilitar essa funcionalidade.
+6. Fazer tratativas de erro com mensagens amigáveis - não se preocupe com as tentativas.
+7. Adicionar indicadores de carregamento ou mensagens para aprimorar a experiência do usuário durante a busca de dados.
+
+### Bônus Realizados
+
+1. Faça a implantação em algum domínio público gratuito.
+2. Incluir pesquisa que permite aos usuários inserir o nome de uma cidade e recuperar informações meteorológicas dessa cidade.
+3. Implementar um recurso para alternar entre Celsius e Fahrenheit.
+
+### Critério de Avaliação
+
+- Estrutura e organização do código.
+- Uso adequado da estrutura React.
+- Tratamento de operações assíncronas (solicitações de API).
+- Interface do usuário e experiência do usuário.
+- Tratamento de erros e casos extremos.
+- Credibilidade bônus para recursos adicionais.
 
 ## Instruções para Executar
 
@@ -9,7 +40,6 @@ Este é um aplicativo meteorológico simples criado com React e TypeScript.
    ```bash
    git clone https://github.com/seu-usuario/weather-app.git
    cd weather-app
-
    ```
 
 2. Instale as dependências:
@@ -28,72 +58,19 @@ Este é um aplicativo meteorológico simples criado com React e TypeScript.
 
 4. Abra http://localhost:3000 no seu navegador.
 
-## Testes
-
-Para executar os testes, use o comando:
-
-```bash
-npm test
-
 ## Implantação
 
-O aplicativo está implantado em: [Link de Implantação]
+O aplicativo está implantado em: [Weather App](https://vercel.com/patbarnabes-projects/weather-app)
 
 ## Notas de Implementação
 
 - Utilizamos a API OpenWeatherMap para buscar dados meteorológicos.
-- Utilizamos geolocalização do navegador para buscar a localização do usuário.
+- Utilizamos a geolocalização do navegador para buscar a localização do usuário.
 - Implementamos uma interface amigável e tratativas de erro.
 
-## Funcionalidades Bônus
+## Tecnologias Utilizadas
 
-- Alternar entre Celsius e Fahrenheit.
-- Previsão do tempo para os próximos 4 dias.
-
-# <!-- # Getting Started with Create React App
-
-# This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-# ## Available Scripts
-
-# In the project directory, you can run:
-
-# ### `npm start`
-
-# Runs the app in the development mode.\
-# Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-# The page will reload if you make edits.\
-# You will also see any lint errors in the console.
-
-# ### `npm test`
-
-# Launches the test runner in the interactive watch mode.\
-# See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-# ### `npm run build`
-
-# Builds the app for production to the `build` folder.\
-# It correctly bundles React in production mode and optimizes the build for the best performance.
-
-# The build is minified and the filenames include the hashes.\
-# Your app is ready to be deployed!
-
-# See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-# ### `npm run eject`
-
-# **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-# If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-# Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-# You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-# ## Learn More
-
-# You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-# To learn React, check out the [React documentation](https://reactjs.org/). -->
-```
+- **React:** Biblioteca para construção da interface do usuário.
+- **TypeScript:** Superset do JavaScript que adiciona tipagem estática.
+- **Material-UI:** Biblioteca de componentes React para um design consistente e responsivo.
+- **Axios:** Biblioteca para fazer requisições HTTP.
