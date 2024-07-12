@@ -67,6 +67,7 @@ O aplicativo está implantado em: [Weather App](https://weather-app-roan-omega-6
 - Utilizamos a API OpenWeatherMap para buscar dados meteorológicos.
 - Utilizamos a geolocalização do navegador para buscar a localização do usuário.
 - Implementamos uma interface amigável e tratativas de erro.
+- A escolha de animação de fundo com CSS foi para proporcionar uma experiência visual agradável e indicativa das condições climáticas.
 
 ## Tecnologias Utilizadas
 
