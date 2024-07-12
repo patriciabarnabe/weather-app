@@ -72,37 +72,43 @@ const App: React.FC = () => {
   };
 
   return (
-    <Container
-      sx={{
-        textAlign: "center",
-        mt: 14,
-        borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-        padding: "26px",
-        width: { xs: "100%", sm: "80%", md: "60%" },
-      }}
-    >
-      <Typography
-        variant="h4"
-        component="h1"
-        sx={{ fontWeight: "bold" }}
-        gutterBottom
+    <>
+      <div className="background-animation"></div>
+      <Container
+        sx={{
+          textAlign: "center",
+          mt: 14,
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          padding: "26px",
+          width: { xs: "100%", sm: "80%", md: "60%" },
+          position: "relative",
+          zIndex: 1,
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+        }}
       >
-        ~ Weather Forecast ~
-      </Typography>
-      <CitySearch onSearch={handleSearch} />
-      <UnitToggle unit={unit} onToggle={setUnit} />{" "}
-      {loading ? <CircularProgress /> : <WeatherDisplay weather={weather} />}
-      <Snackbar
-        open={!!error}
-        autoHideDuration={6000}
-        onClose={() => setError(null)}
-      >
-        <Alert onClose={() => setError(null)} severity="error">
-          {error}
-        </Alert>
-      </Snackbar>
-    </Container>
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{ fontWeight: "bold" }}
+          gutterBottom
+        >
+          ~ Weather Forecast ~
+        </Typography>
+        <CitySearch onSearch={handleSearch} />
+        <UnitToggle unit={unit} onToggle={setUnit} />{" "}
+        {loading ? <CircularProgress /> : <WeatherDisplay weather={weather} />}
+        <Snackbar
+          open={!!error}
+          autoHideDuration={6000}
+          onClose={() => setError(null)}
+        >
+          <Alert onClose={() => setError(null)} severity="error">
+            {error}
+          </Alert>
+        </Snackbar>
+      </Container>
+    </>
   );
 };
 

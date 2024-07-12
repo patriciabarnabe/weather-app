@@ -44,7 +44,7 @@ const GridItem = styled(Grid)({
 });
 
 const HighlightedText = styled(Typography)({
-  backgroundColor: "#1976d2",
+  backgroundColor: "#4682b4",
   color: "#fff",
   padding: "4px 8px",
   borderRadius: "4px",
