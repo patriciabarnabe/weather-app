@@ -19,7 +19,7 @@ const InstructionModal: React.FC<InstructionModalProps> = ({
 }) => {
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Alert</DialogTitle>
+      <DialogTitle sx={{ fontWeight: "bold" }}>Alert!</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Please fill in both the city and country fields or leave both fields

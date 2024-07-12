@@ -27,10 +27,14 @@ const App: React.FC = () => {
   const location = useGeoLocation();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [locationError, setLocationError] = useState<boolean>(false);
 
   useEffect(() => {
     if (location.lat !== null && location.lon !== null) {
       fetchWeather();
+      setLocationError(false);
+    } else {
+      setLocationError(true);
     }
   }, [location, unit]);
 
@@ -41,7 +45,11 @@ const App: React.FC = () => {
       if (city && country) {
         response = await getWeatherByCity(city, country, unit);
       } else if (location.lat !== null && location.lon !== null) {
-        response = await getWeatherByCoords(location.lat, location.lon, unit);
+        response = await getWeatherByCoords(
+          Number(location.lat),
+          Number(location.lon),
+          unit
+        ); // Convert lat and lon to number here
       }
       if (response) {
         setWeather({
@@ -107,6 +115,14 @@ const App: React.FC = () => {
             {error}
           </Alert>
         </Snackbar>
+        {locationError && (
+          <Snackbar open={true} autoHideDuration={6000}>
+            <Alert severity="warning">
+              Your location is not available. Please enable location services to
+              use this app.
+            </Alert>
+          </Snackbar>
+        )}
       </Container>
     </>
   );
