@@ -60,7 +60,7 @@ Este é um aplicativo meteorológico simples criado com React e TypeScript. O ob
 
 ## Implantação
 
-O aplicativo está implantado em: [Weather App](https://vercel.com/patbarnabes-projects/weather-app)
+O aplicativo está implantado em: [Weather App](https://weather-app-roan-omega-68.vercel.app/)
 
 ## Notas de Implementação
 
