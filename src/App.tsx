@@ -49,7 +49,7 @@ const App: React.FC = () => {
           Number(location.lat),
           Number(location.lon),
           unit
-        ); // Convert lat and lon to number here
+        );
       }
       if (response) {
         setWeather({
