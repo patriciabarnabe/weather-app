@@ -4,12 +4,31 @@ import {
   ToggleButtonGroup,
   Grid,
   Typography,
+  Box,
 } from "@mui/material";
+import { styled } from "@mui/system";
 
 interface UnitToggleProps {
   unit: "metric" | "imperial";
   onToggle: (unit: "metric" | "imperial") => void;
 }
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)({
+  backgroundColor: "rgba(255, 255, 255, 0.1)",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+});
+
+const StyledToggleButton = styled(ToggleButton)({
+  color: "#000",
+  "&.Mui-selected": {
+    backgroundColor: "#1976d2",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#1565c0",
+    },
+  },
+});
 
 const UnitToggle: React.FC<UnitToggleProps> = ({ unit, onToggle }) => {
   const handleUnitChange = (
@@ -22,23 +41,32 @@ const UnitToggle: React.FC<UnitToggleProps> = ({ unit, onToggle }) => {
   };
 
   return (
-    <Grid container justifyContent="center" spacing={2}>
-      <Grid item>
-        <ToggleButtonGroup
-          value={unit}
-          exclusive
-          onChange={handleUnitChange}
-          aria-label="unidade"
-        >
-          <ToggleButton value="metric" aria-label="metric">
-            Métrico
-          </ToggleButton>
-          <ToggleButton value="imperial" aria-label="imperial">
-            Imperial
-          </ToggleButton>
-        </ToggleButtonGroup>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: "16px",
+      }}
+    >
+      <Grid container justifyContent="center">
+        <Grid item>
+          <StyledToggleButtonGroup
+            value={unit}
+            exclusive
+            onChange={handleUnitChange}
+            aria-label="unidade"
+          >
+            <StyledToggleButton value="metric" aria-label="metric">
+              Celsius
+            </StyledToggleButton>
+            <StyledToggleButton value="imperial" aria-label="imperial">
+              Fahrenheit
+            </StyledToggleButton>
+          </StyledToggleButtonGroup>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box>
   );
 };
 

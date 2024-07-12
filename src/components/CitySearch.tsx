@@ -8,13 +8,35 @@ import {
   FormControl,
   InputLabel,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { getCode, getNames } from "country-list";
 import InstructionModal from "./InstructionModal";
+import { styled } from "@mui/system";
 
 interface CitySearchProps {
   onSearch: (city?: string, country?: string) => void;
 }
+
+const StyledForm = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  marginBottom: "16px",
+  backgroundColor: "rgba(255, 255, 255, 0.1)",
+  padding: "12px",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+  flexWrap: "wrap",
+});
+
+const StyledButton = styled(Button)({
+  backgroundColor: "#1976d2",
+  color: "#fff",
+  "&:hover": {
+    backgroundColor: "#1565c0",
+  },
+});
 
 const CitySearch: React.FC<CitySearchProps> = ({ onSearch }) => {
   const [city, setCity] = useState<string>("");
@@ -32,50 +54,42 @@ const CitySearch: React.FC<CitySearchProps> = ({ onSearch }) => {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 2,
-        mb: 2,
-      }}
-    >
-      <Typography variant="h6" component="h2">
-        Search by City and Country
-      </Typography>
-      <TextField
-        label="Enter the name of the city (optional)"
-        variant="outlined"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
-      <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-        <InputLabel>Select the country (optional)</InputLabel>
-        <Select
-          value={country}
-          onChange={(e) => setCountry(e.target.value as string)}
-          label="Select the country (optional)"
-        >
-          {countryNames.map((name) => (
-            <MenuItem key={name} value={name}>
-              {name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      <Button variant="contained" color="primary" type="submit">
-        Search
-      </Button>
+    <>
+      <StyledForm component="form" onSubmit={handleSubmit}>
+        <Tooltip title="You can leave this empty if you don't want to search by city">
+          <TextField
+            label="City"
+            variant="outlined"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            sx={{ flex: 1 }}
+          />
+        </Tooltip>
+        <FormControl variant="outlined" sx={{ flex: 1, minWidth: 200 }}>
+          <InputLabel>Country</InputLabel>
+          <Select
+            value={country}
+            onChange={(e) => setCountry(e.target.value as string)}
+            label="Country"
+          >
+            {countryNames.map((name) => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <StyledButton variant="contained" type="submit">
+          Search
+        </StyledButton>
+      </StyledForm>
       {showInstructions && (
         <InstructionModal
           open={showInstructions}
           onClose={() => setShowInstructions(false)}
         />
       )}
-    </Box>
+    </>
   );
 };
 

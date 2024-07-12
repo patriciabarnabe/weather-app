@@ -14,29 +14,9 @@ interface WeatherResponse {
   wind: {
     speed: number;
   };
-}
-
-interface WeeklyForecastResponse {
-  daily: {
-    temp: {
-      min: number;
-      max: number;
-    };
-  }[];
-}
-
-interface AirQualityResponse {
-  list: {
-    main: {
-      aqi: number;
-    };
-  }[];
-}
-
-interface SunScheduleResponse {
+  name: string;
   sys: {
-    sunrise: number;
-    sunset: number;
+    country: string;
   };
 }
 
@@ -58,32 +38,4 @@ export const getWeatherByCoords = async (
   const url = `${BASE_URL}/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${API_KEY}`;
   const response = await axios.get<WeatherResponse>(url);
   return response.data;
-};
-
-export const getWeeklyForecast = async (
-  lat: number,
-  lon: number,
-  unit: string
-) => {
-  const url = `${BASE_URL}/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,hourly,alerts&units=${unit}&appid=${API_KEY}`;
-  const response = await axios.get<WeeklyForecastResponse>(url);
-  return response.data.daily.map((day) => ({
-    minTemp: day.temp.min,
-    maxTemp: day.temp.max,
-  }));
-};
-
-export const getAirQuality = async (lat: number, lon: number) => {
-  const url = `${BASE_URL}/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
-  const response = await axios.get<AirQualityResponse>(url);
-  return response.data.list[0].main.aqi;
-};
-
-export const getSunSchedule = async (lat: number, lon: number) => {
-  const url = `${BASE_URL}/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
-  const response = await axios.get<SunScheduleResponse>(url);
-  return {
-    sunrise: new Date(response.data.sys.sunrise * 1000).toLocaleTimeString(),
-    sunset: new Date(response.data.sys.sunset * 1000).toLocaleTimeString(),
-  };
 };
